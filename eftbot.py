@@ -26,16 +26,16 @@ async def on_member_join(member):
     print(f'(member) joined')
 
 
-
 # Commands
 @client.command(aliases=['ping', 'pings'])
+@commands.has_permissions(manage_messges=True)  # discord users permissions based on server
 async def _ping(ctx):
     await ctx.send(f"Ping {round(client.latency *1000)}ms")
 
 
 @client.command()
-async def clear(ctx, amount=):
-    await ctx.channel.purge(limit=amount+1)
+async def clear(ctx, amount: int):
+    await ctx.channel.purge(limit=amount)
 
 
 @clear.error
