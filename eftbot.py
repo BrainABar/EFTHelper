@@ -7,6 +7,7 @@ from config import Config
 client = commands.Bot(command_prefix="!")
 status = cycle(['test status 1', 'status test 2'])
 
+users = {}
 
 # Events
 @client.event
@@ -28,14 +29,22 @@ async def on_member_join(member):
 
 # Commands
 @client.command(aliases=['ping', 'pings'])
-@commands.has_permissions(manage_messges=True)  # discord users permissions based on server
 async def _ping(ctx):
     await ctx.send(f"Ping {round(client.latency *1000)}ms")
 
 
+@client.command(aliases=['setmap', 'mymap', 'smap'], pass_context=True)
+async def _setmap(ctx, *args):
+    if len(args) > 0:
+        if args[0] in ['customs']:
+            await ctx.send(str(ctx.message.author))
+    else:
+        await ctx.send("Missing an argument: !<command> <map name>")
+
+
 @client.command()
 async def clear(ctx, amount: int):
-    await ctx.channel.purge(limit=amount)
+    await ctx.channel.purge(limit=amount+1)
 
 
 @clear.error
